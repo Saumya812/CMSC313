@@ -1,0 +1,304 @@
+matmult(int (*) [3], int (*) [3], int (*) [3]):
+        push    rbp
+        mov     rbp, rsp
+        mov     QWORD PTR [rbp-24], rdi
+        mov     QWORD PTR [rbp-32], rsi
+        mov     QWORD PTR [rbp-40], rdx
+        mov     DWORD PTR [rbp-4], 0
+        jmp     .L2
+.L7:
+        mov     DWORD PTR [rbp-8], 0
+        jmp     .L3
+.L6:
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-24]
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     DWORD PTR [rdx+rax*4], 0
+        mov     DWORD PTR [rbp-12], 0
+        jmp     .L4
+.L5:
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-24]
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     esi, DWORD PTR [rdx+rax*4]
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-32]
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-12]
+        cdqe
+        mov     ecx, DWORD PTR [rdx+rax*4]
+        mov     eax, DWORD PTR [rbp-12]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-40]
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     eax, DWORD PTR [rdx+rax*4]
+        imul    ecx, eax
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-24]
+        add     rdx, rax
+        add     ecx, esi
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     DWORD PTR [rdx+rax*4], ecx
+        add     DWORD PTR [rbp-12], 1
+.L4:
+        cmp     DWORD PTR [rbp-12], 2
+        jle     .L5
+        add     DWORD PTR [rbp-8], 1
+.L3:
+        cmp     DWORD PTR [rbp-8], 2
+        jle     .L6
+        add     DWORD PTR [rbp-4], 1
+.L2:
+        cmp     DWORD PTR [rbp-4], 2
+        jle     .L7
+        nop
+        nop
+        pop     rbp
+        ret
+matadd(int (*) [3], int (*) [3], int (*) [3]):
+        push    rbp
+        mov     rbp, rsp
+        mov     QWORD PTR [rbp-24], rdi
+        mov     QWORD PTR [rbp-32], rsi
+        mov     QWORD PTR [rbp-40], rdx
+        mov     DWORD PTR [rbp-4], 0
+        jmp     .L9
+.L12:
+        mov     DWORD PTR [rbp-8], 0
+        jmp     .L10
+.L11:
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-32]
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     esi, DWORD PTR [rdx+rax*4]
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-40]
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     ecx, DWORD PTR [rdx+rax*4]
+        mov     eax, DWORD PTR [rbp-4]
+        movsx   rdx, eax
+        mov     rax, rdx
+        add     rax, rax
+        add     rax, rdx
+        sal     rax, 2
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-24]
+        add     rdx, rax
+        add     ecx, esi
+        mov     eax, DWORD PTR [rbp-8]
+        cdqe
+        mov     DWORD PTR [rdx+rax*4], ecx
+        add     DWORD PTR [rbp-8], 1
+.L10:
+        cmp     DWORD PTR [rbp-8], 2
+        jle     .L11
+        add     DWORD PTR [rbp-4], 1
+.L9:
+        cmp     DWORD PTR [rbp-4], 2
+        jle     .L12
+        nop
+        nop
+        pop     rbp
+        ret
+.LC0:
+        .string "    [%3d %3d %3d]\n"
+.LC1:
+        .string "%c = |%3d %3d %3d|\n"
+.LC2:
+        .string "    [%3d %3d %3d]\n\n"
+printMatrix(char, int (*) [3]):
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 16
+        mov     eax, edi
+        mov     QWORD PTR [rbp-16], rsi
+        mov     BYTE PTR [rbp-4], al
+        mov     rax, QWORD PTR [rbp-16]
+        mov     ecx, DWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rbp-16]
+        mov     edx, DWORD PTR [rax+4]
+        mov     rax, QWORD PTR [rbp-16]
+        mov     eax, DWORD PTR [rax]
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:.LC0
+        mov     eax, 0
+        call    printf
+        mov     rax, QWORD PTR [rbp-16]
+        add     rax, 12
+        mov     esi, DWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rbp-16]
+        add     rax, 12
+        mov     ecx, DWORD PTR [rax+4]
+        mov     rax, QWORD PTR [rbp-16]
+        add     rax, 12
+        mov     edx, DWORD PTR [rax]
+        movsx   eax, BYTE PTR [rbp-4]
+        mov     r8d, esi
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:.LC1
+        mov     eax, 0
+        call    printf
+        mov     rax, QWORD PTR [rbp-16]
+        add     rax, 24
+        mov     ecx, DWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rbp-16]
+        add     rax, 24
+        mov     edx, DWORD PTR [rax+4]
+        mov     rax, QWORD PTR [rbp-16]
+        add     rax, 24
+        mov     eax, DWORD PTR [rax]
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:.LC2
+        mov     eax, 0
+        call    printf
+        nop
+        leave
+        ret
+.LC3:
+        .string "        [%3d %3d %3d]\n"
+.LC4:
+        .string "A*B+A = |%3d %3d %3d|\n"
+printResultMatrix(int (*) [3]):
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 16
+        mov     QWORD PTR [rbp-8], rdi
+        mov     rax, QWORD PTR [rbp-8]
+        mov     ecx, DWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rbp-8]
+        mov     edx, DWORD PTR [rax+4]
+        mov     rax, QWORD PTR [rbp-8]
+        mov     eax, DWORD PTR [rax]
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:.LC3
+        mov     eax, 0
+        call    printf
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, 12
+        mov     ecx, DWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, 12
+        mov     edx, DWORD PTR [rax+4]
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, 12
+        mov     eax, DWORD PTR [rax]
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:.LC4
+        mov     eax, 0
+        call    printf
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, 24
+        mov     ecx, DWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, 24
+        mov     edx, DWORD PTR [rax+4]
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, 24
+        mov     eax, DWORD PTR [rax]
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:.LC3
+        mov     eax, 0
+        call    printf
+        nop
+        leave
+        ret
+main:
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 192
+        mov     DWORD PTR [rbp-48], 1
+        mov     DWORD PTR [rbp-44], 2
+        mov     DWORD PTR [rbp-40], 3
+        mov     DWORD PTR [rbp-36], 4
+        mov     DWORD PTR [rbp-32], 5
+        mov     DWORD PTR [rbp-28], 6
+        mov     DWORD PTR [rbp-24], 7
+        mov     DWORD PTR [rbp-20], 8
+        mov     DWORD PTR [rbp-16], 9
+        mov     DWORD PTR [rbp-96], 1
+        mov     DWORD PTR [rbp-92], 2
+        mov     DWORD PTR [rbp-88], 0
+        mov     DWORD PTR [rbp-84], 3
+        mov     DWORD PTR [rbp-80], 4
+        mov     DWORD PTR [rbp-76], 5
+        mov     DWORD PTR [rbp-72], 0
+        mov     DWORD PTR [rbp-68], 6
+        mov     DWORD PTR [rbp-64], 7
+        lea     rdx, [rbp-96]
+        lea     rcx, [rbp-48]
+        lea     rax, [rbp-144]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    matmult(int (*) [3], int (*) [3], int (*) [3])
+        lea     rdx, [rbp-48]
+        lea     rcx, [rbp-144]
+        lea     rax, [rbp-192]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    matadd(int (*) [3], int (*) [3], int (*) [3])
+        lea     rax, [rbp-48]
+        mov     rsi, rax
+        mov     edi, 65
+        call    printMatrix(char, int (*) [3])
+        lea     rax, [rbp-96]
+        mov     rsi, rax
+        mov     edi, 66
+        call    printMatrix(char, int (*) [3])
+        lea     rax, [rbp-192]
+        mov     rdi, rax
+        call    printResultMatrix(int (*) [3])
+        mov     eax, 0
+        leave
+        ret
