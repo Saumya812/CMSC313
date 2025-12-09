@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// "Vehicle-like" struct
+   
+typedef struct {
+    void (*startEngine)();
+    void (*accelerate)();
+    void (*brake)();
+    const char *owner;
+} Car;
+
+/* -------- Vehicle behaviors -------- */
+
+void startEngineImpl() {
+    printf("Engine started!\n");
+}
+
+void accelerateImpl() {
+    printf("Car: Pressing gas pedal...\n");
+}
+
+void brakeImpl() {
+    printf("Car: Applying brakes...\n");
+}
+
+/* ---- Create a new car with an owner ---- */
+Car* createCar(const char *ownerName) {
+    Car* c = malloc(sizeof(Car));
+    c->startEngine = startEngineImpl;
+    c->accelerate  = accelerateImpl;
+    c->brake       = brakeImpl;
+    c->owner       = ownerName;
+    return c;
+}
+
+/* ----------- MAIN ------------ */
+
+int main() {
+
+    Car* janesCar = createCar("Jane");
+    Car* jacksCar = createCar("Jack");
+
+    printf("%s's car:\n", janesCar->owner);
+    janesCar->startEngine();
+    janesCar->accelerate();
+    janesCar->brake();
+
+    printf("\n%s's car:\n", jacksCar->owner);
+    jacksCar->startEngine();
+    jacksCar->accelerate();
+    jacksCar->brake();
+
+    free(janesCar);
+    free(jacksCar);
+
+    return 0;
+}
